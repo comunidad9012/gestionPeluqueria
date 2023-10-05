@@ -1,5 +1,5 @@
 # app.py
 
-from apiwsgi import Wsgiclass
+from apiwsgi0 import Wsgiclass
 
 app = Wsgiclass()

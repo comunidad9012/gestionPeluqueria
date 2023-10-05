@@ -5,7 +5,7 @@ from webob import Request, Response
 
 class Wsgiclass:
     def __init__(self):
-        self.rutas = {}
+        self.dic_rutas = {}
 
     def __call__(self, environ, start_response):
         request = Request(environ)
@@ -15,16 +15,16 @@ class Wsgiclass:
         return response(environ, start_response)
 
     def ruta(self, path):
-        def wrapper(controlador):
-            self.rutas[path] = controlador
+        def envoltura(controlador):
+            self.dic_rutas[path] = controlador
             return controlador
 
-        return wrapper
+        return envoltura
 
     def handle_request(self, request):
         response = Response()
 
-        for path, controlador in self.rutas.items():
+        for path, controlador in self.dic_rutas.items():
             if path == request.path:
                 controlador(request, response)
                 return response

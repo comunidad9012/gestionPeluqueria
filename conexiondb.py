@@ -30,18 +30,23 @@ def logicaAlta(request, response):
 
         queryVerifica='SELECT count(*) FROM cliente where usuario = %s'
         cursor.execute(queryVerifica, (usuario_cliente,))
-        resultado = cursor.fetchone()
+        resultado1 = cursor.fetchone()
 
-        if resultado[0] > 0:
-            response.text=app.template("home.html")
+        queryVerifica='SELECT count(*) FROM cliente where dni_cliente = %s'
+        cursor.execute(queryVerifica, (dni_cliente,))
+        resultado2 = cursor.fetchone()
+
+        if resultado1[0] > 0:
+            response.text=app.template("registro.html", context={"errorUser": "Existe ese usuario"})
+        elif resultado2[0] > 0:
+            response.text=app.template("registro.html", context={"errorDni": "Ese dni ya esta registrado"})
         else:
             datosCliente = (dni_cliente, nombre_cliente, apellido_cliente, telefono_cliente, usuario_cliente, contraseña_cliente)
             query = ('insert into cliente (dni_cliente, nombre_cliente, apellido_cliente, tel_cliente, usuario, contraseña) values (%s, %s, %s, %s, %s, %s)')
-
             cursor.execute(query, datosCliente)
             conexion.commit()
-        response.text=app.template("home.html")
+            response.text=app.template("userExiste.html", context={"respuesta": "Usuario cargado"})
     except Exception as e:
-        response.text=app.template("home.html")
+        response.text=app.template("userExiste.html", context={"respuesta": e})
         conexion.close()
 

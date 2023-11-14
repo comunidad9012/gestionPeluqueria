@@ -1,18 +1,24 @@
-# api Wsgi con server wsgi
-
 from webob import Request, Response
-
+from jinja2 import Environment, FileSystemLoader
 
 class Wsgiclass:
-    def __init__(self):
-        self.dic_rutas = {}
 
     def __call__(self, environ, start_response):
         request = Request(environ)
-
         response = self.handle_request(request)
-
         return response(environ, start_response)
+
+    def __init__(self, templates_dir="templates"):
+        self.dic_rutas = {}
+        
+        self.templates_env = Environment(
+            loader = FileSystemLoader(templates_dir)
+        )
+    
+    def template(self, template_name, context=None):
+        if context is None:
+            context = {}
+        return self.templates_env.get_template(template_name).render(**context)
 
     def ruta(self, path):
         def envoltura(controlador):

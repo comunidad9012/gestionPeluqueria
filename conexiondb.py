@@ -50,3 +50,34 @@ def logicaAlta(request, response):
         response.text=app.template("userExiste.html", context={"respuesta": e})
         conexion.close()
 
+@app.ruta("/vistaAltaTurno")
+def vistaAltaTurno(request,response):
+    response.text=app.template("vistaAltaTurno.html")
+
+@app.ruta("/altaTurno")
+def altaTurno(request,response):
+    try:
+        from datetime import datetime, timedelta
+        conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+        cursor= conexion.cursor()
+
+        fechaInicio= request.POST.get('fechaInicio')
+        fecha_hora_objeto = datetime.strptime(fechaInicio, "%Y-%m-%dT%H:%M")
+        fechaFin= fecha_hora_objeto + timedelta(minutes=40)
+
+        query='select count(*) from turno where dia_inicio = %s'
+        cursor.execute(query, (fecha_hora_objeto,))
+        respuesta=cursor.fetchone()
+
+        if respuesta[0]>0:
+            response.text=app.template("userExiste.html", context={"respuesta": "Ese turno ya existe"})
+        else:
+            queryAlta='insert into turno (dia_inicio, dia_fin, disponibilidad, dni_peluquero) values (%s,%s,%s,%s)'
+            datosAlta=(fecha_hora_objeto, fechaFin,1,12345679)
+            cursor.execute(queryAlta, datosAlta)
+            conexion.commit()
+            response.text=app.template("userExiste.html", context={"respuesta": f'Turno {fecha_hora_objeto} cargado'})
+        conexion.close()
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": e})
+        conexion.close()

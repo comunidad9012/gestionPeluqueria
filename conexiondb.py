@@ -1,6 +1,7 @@
 import mysql.connector
 from apiwsgi import Wsgiclass
 from webob import Request, Response
+from datetime import datetime, timedelta
 
 
 app= Wsgiclass()
@@ -58,7 +59,6 @@ def vistaAltaTurno(request,response):
 @app.ruta("/altaTurno")
 def altaTurno(request,response):
     try:       
-        from datetime import datetime, timedelta
         conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
         cursor= conexion.cursor()
 
@@ -136,4 +136,43 @@ def deleteTurno(request,response):
     response.text=app.template("turnosConfirmados.html", context={"turnos": turno})
     conexion.close()
 
+@app.ruta("/vistaEditTurno")
+def vistaEditTurno(request,response):
+    try:    
+        conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+        cursor= conexion.cursor()
+        query='SELECT * FROM turno where idturno = %s'
+        id= request.POST.get("id")
+        cursor.execute(query,(id,))
+        cliente= cursor.fetchone()
 
+        response.text=app.template("modificaTurno.html", context={"cliente":cliente})
+
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema {e}"})
+    conexion.close()
+
+@app.ruta("/editTurno")
+def editTurno(request,response):
+    try:    
+        conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+        cursor= conexion.cursor()
+        idTurno= request.POST.get("idTurno")
+        fechaNueva=request.POST.get('fechaInicio')
+        fecha_hora_objeto = datetime.strptime(fechaNueva, "%Y-%m-%dT%H:%M")
+        fechaFin= fecha_hora_objeto + timedelta(minutes=40)
+
+        fecha_actual = datetime.now()
+        fecha_minima_permitida = fecha_actual + timedelta(hours=24)
+
+        if fecha_hora_objeto <= fecha_minima_permitida:
+            response.text=app.template("turnosConfirmados.html", context={"respuesta": 'Solo se permite cargar turnos con 1 dia de posterioridad'})
+        else:
+            queryModifica='UPDATE turno SET dia_inicio= %s, dia_fin = %s WHERE idturno=%s'
+            datosmodifica=(fecha_hora_objeto, fechaFin, idTurno)
+            cursor.execute(queryModifica, datosmodifica)
+            response.text=app.template("turnosConfirmados.html", context={"respuesta": 'Turno modificado con exito'})
+            conexion.commit()
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema {e}"})
+    conexion.close()

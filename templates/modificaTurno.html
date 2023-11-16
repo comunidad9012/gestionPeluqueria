@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="container" style="background-color: rgb(97, 68, 42);">
+    {% include 'header.html' %}
+    <h1>Editar Turno</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>ID TURNO</td>
+                    <td>Fecha y Hora</td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{cliente[0]}}</td>
+                <td>{{cliente[1]}}</td>
+            </tr>
+            </tbody>
+        </table>
+    <form action="editTurno" method="post">
+        <div class="input-group mb-3">
+            {% if respuesta:%}
+            <h2>{{respuesta}}</h2>
+            {%endif%}
+            <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
+            <input type="hidden" name="idTurno" value="{{ cliente[0] }}">
+            <input type="hidden" name="fechaTurno" value="{{ cliente[1] }}">
+            <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaInicio" id="fechaInicio">
+        </div>
+        <button type="submit" class="btn bg-warning-subtle">Modificar</button>
+    </form>
+</body>
+</html>

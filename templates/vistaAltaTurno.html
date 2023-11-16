@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="background-color: rgb(97, 68, 42);">
+<body style="background-color: rgb(97, 68, 42);" class="container">
     {% include 'header.html' %}
+    <h1>Dar de alta turno como peluquero Carlos</h1>
     <form action="/altaTurno" method="post" class="container">
+        {% if respuesta %}
+          <div class="alert alert-warning" role="alert">
+            {{ respuesta }}
+          </div>
+        {% endif %}
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Fecha Inicio</span>
+            <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora Turno</span>
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaInicio" id="fechaInicio">
           </div>
           <button type="submit" class="btn bg-warning-subtle">Confirmar</button>
-      </form>
+    </form>
+    
 </body>
 </html>

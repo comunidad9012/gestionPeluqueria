@@ -8,7 +8,13 @@
 </head>
 <body class="container" style="background-color: rgb(97, 68, 42);">
       {% include 'header.html' %}
-      <form action="/logicaAlta" method="post">
+      <h1>Registro de usuario</h1>
+      <form action="/logicaRegistro" method="post">
+        {% if error %}
+          <div class="alert alert alert-warning" role="alert">
+            {{ error }}
+          </div>
+        {% endif %}
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
             <input type="text" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="nombreCliente" id="nombreCliente">
@@ -21,7 +27,6 @@
             <span class="input-group-text" id="inputGroup-sizing-default">DNI</span>
             <input type="text" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="dniCliente" id="dniCliente"><br>
           </div>
-          <div><p class="text-danger">{{ errorDni }}</p></div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
             <input type="text" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="Telefono" id="Telefono">
@@ -30,7 +35,6 @@
             <span class="input-group-text" id="inputGroup-sizing-default">Usuario</span>
             <input type="text" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="usuarioCliente" id="usuarioCliente">
           </div>
-          <div><p class="text-danger">{{ errorUser }}</p></div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Contraseña</span>
             <input type="text" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="contraseña" id="contraseña">

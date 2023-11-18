@@ -8,7 +8,7 @@
 </head>
 <body class="container" style="background-color: rgb(97, 68, 42);">
     {% include 'header.html' %}
-    <h1>Editar Turnos de Carlos</h1>
+    <h1>Editar Turnos de Pedro</h1>
     {% if respuesta%}
         {{respuesta}}
     {% endif %}
@@ -30,6 +30,7 @@
                     <td>
                         <form method="post" action="/deleteTurno" style="display: inline;">
                             <input type="hidden" name="id" value="{{ i[0] }}">
+                            <input type="hidden" name="turnos" value="turnos">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                         <form method="post" action="/vistaEditTurno" style="display: inline;">

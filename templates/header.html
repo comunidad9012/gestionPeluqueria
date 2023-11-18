@@ -37,17 +37,36 @@
                 <a class="nav-link fw-medium text-light" href="/home">Inicio</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link fw-medium text-light" href="/home">Nosotros</a>
+              </li>
+              {% if cookieLogin %}
+              <li class="nav-item">
                 <a class="nav-link fw-medium text-light" href="/vistaAltaTurno">Dar alta de turnos</a>
               </li>
+              {%endif%}
+              {% if cookieLogin %}
               <li class="nav-item">
                 <a class="nav-link fw-medium text-light" href="/turnoConfirmado">Editar Turnos</a>
               </li>
+              {%endif%}
+              {% if cookieLogin %}
               <li class="nav-item">
                 <a class="nav-link fw-medium text-light" href="/turnosDisponibles">Turnos Disponibles</a>
               </li>
+              {%endif%}
               <li class="nav-item">
-                <a class="nav-link fw-medium text-light" href="/registro">Registrate</a>
+                <a class="nav-link fw-medium text-light" href="/home">Contacto</a>
               </li>
+              {% if cookieLogin %}
+              <li class="nav-item">
+                <a class="nav-link fw-medium text-light" href="/logout">Salir</a>
+              </li>
+              {% else: %}
+              <li class="nav-item">
+                <a class="nav-link fw-medium text-light" href="/vistaLogin">Ingresa</a>
+              </li>
+              {%endif%}
+
             </ul>
           </div>
         </div>

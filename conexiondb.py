@@ -12,9 +12,13 @@ sessions = {}
 @app.ruta("/home")
 def home(request, response):
     datosCookie = request.cookies.get('session_id')
-    datosSesion=json.loads(datosCookie)
-    session_id=datosSesion.get('session_id')
-    response.text=app.template("home.html", context={"cookieLogin": session_id})
+    if datosCookie:
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        response.text=app.template("home.html", context={"cookieLogin": session_id})
+    else:
+        response.text=app.template("home.html")
+
 
 @app.ruta("/registro")
 def registroVista(request, response):
@@ -63,13 +67,30 @@ def logicaAlta(request, response):
 
 @app.ruta("/vistaAltaTurno")
 def vistaAltaTurno(request,response):
-    datosCookie = request.cookies.get('session_id')
-    datosSesion=json.loads(datosCookie)
-    session_id=datosSesion.get('session_id')
-    if session_id:
-        response.text=app.template("vistaAltaTurno.html", context={"cookieLogin": session_id})
-    else:
-        response.text=app.template("home.html")
+    try:
+        datosCookie = request.cookies.get('session_id')
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        if session_id:
+            response.text=app.template("vistaAltaTurno.html", context={"cookieLogin": session_id})
+        else:
+            response.text=app.template("home.html")
+    except:
+        response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
+
+@app.ruta("/vistaTurnoConfirmado")
+def vistaTurnoConfirmado(request,response):
+    try:
+        datosCookie = request.cookies.get('session_id')
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        if session_id:
+            response.text=app.template("turnosDisponibles.html", context={"cookieLogin": session_id})
+        else:
+            response.text=app.template("home.html")
+    except:
+        response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
+
 
 @app.ruta("/altaTurno")
 def altaTurno(request,response):
@@ -106,19 +127,18 @@ def altaTurno(request,response):
             conexion.close()
         else:
             response.text=app.template("home.html")
+            conexion.close()
     except Exception as e:
         response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
-        conexion.close()
-    conexion.close()
 
 @app.ruta("/turnoConfirmado")
 def turnoConfirmado(request,response):
+    conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
     try:
         datosCookie = request.cookies.get('session_id')
         datosSesion=json.loads(datosCookie)
         session_id=datosSesion.get('session_id')
         sessionDniPeluquero=datosSesion.get('usuario_id')
-        conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
         if session_id:
             cursor= conexion.cursor()
 
@@ -147,9 +167,9 @@ def turnosDisponibles(request,response):
         conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
         if session_id:
             cursor= conexion.cursor()
-            query='SELECT dia_inicio, nombre_peluquero, tel_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero where disponibilidad=1;'
-
-            cursor.execute(query)
+            query='SELECT dia_inicio, nombre_peluquero, tel_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero where disponibilidad=1 and turno.dni_peluquero=%s;'
+            dniPeluquero= request.POST.get("peluquero")
+            cursor.execute(query, (dniPeluquero,))
             turnos=cursor.fetchall()
 
             response.text=app.template("turnosDisponibles.html", context={"turnos":turnos, "cookieLogin": session_id})
@@ -157,7 +177,7 @@ def turnosDisponibles(request,response):
         else:
             response.text=app.template("home.html")
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
         conexion.close()
 
 @app.ruta("/deleteTurno")
@@ -266,7 +286,7 @@ def login(request,response):
             response.set_cookie('session_id', sessionDatosJson, secure=True, httponly=True)
             response.text=app.template("userExiste.html", context={"respuesta": f"Bienvenido {usuario}", "cookieLogin":session_id })
         else:
-            response.text=app.template("userExiste.html", context={"respuesta": "Ese usuario no existe"})
+            response.text=app.template("userExiste.html", context={"respuesta": "Usuario o contraseña incorrecto"})
         conexion.close()
     except Exception as e:
         response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
@@ -279,4 +299,3 @@ def vistaLogin(request, response):
 def logout(request,response):
     response.delete_cookie('session_id')
     response.text=app.template("home.html")
-

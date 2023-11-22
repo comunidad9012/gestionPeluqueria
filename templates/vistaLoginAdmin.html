@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="container" style="background-color: rgb(97, 68, 42);">
+    {% include 'header.html'%}
+    <form action="/loginAdmin" method="post">
+        <input type="text" name="usuario" id="usuario">
+        <input type="password" name="contraseña" id="contraseña">
+        <button type="submit">Ingresar</button>
+    </form>
+        <p>Si no tenes cuenta, registrate</p>
+        <a class="nav-link fw-medium text-light" href="/registro">Registrate</a>
+</body>
+</html>

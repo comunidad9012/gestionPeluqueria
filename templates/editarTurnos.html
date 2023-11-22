@@ -10,12 +10,12 @@
     {% include 'header.html' %}
     <h1>Editar Turnos</h1>
     {% if respuesta%}
-        {{respuesta}}
+        <h2 class="alert alert-warning" role="alert">{{respuesta}}</h2>
     {% endif %}
-    <table class="table table-dark">
+    {% if turnos %}
+    <table class="table table-bordered table-dark w-75  mx-auto">
         <thead>
             <tr class="table table-Secondary">
-                <td>Turno ID</td>
                 <td>Dia y hora Inicio</td>
                 <td>Peluquero</td>
                 <td>Accion</td>
@@ -24,14 +24,13 @@
         <tbody>
                 {% for i in turnos %}
                 <tr scope="row">
-                    {% for j in i %}
-                    <td>{{ j }}</td>
-                    {% endfor %}
-                    <td>
+                    <td>{{i[1]}}</td>
+                    <td>{{i[2]}}</td>
+                    <td >
                         <form method="post" action="/deleteTurno" style="display: inline;">
                             <input type="hidden" name="id" value="{{ i[0] }}">
                             <input type="hidden" name="turnos" value="turnos">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-danger my-2">Eliminar</button>
                         </form>
                         <form method="post" action="/vistaEditTurno" style="display: inline;">
                             <input type="hidden" name="id" value="{{ i[0] }}">
@@ -40,7 +39,8 @@
                     </td>
                 </tr>
                 {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    {% endif %}
 </body>
 </html>

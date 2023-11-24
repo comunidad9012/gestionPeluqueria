@@ -7,27 +7,9 @@
     <title>Inicio</title>
 </head>
 <body>
-  <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <img src="/images/logoPeluqarte.png" alt="Logo Peluqarte" style="height: 120px;">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-          <a class="nav-link" href="/vistaAltaTurno">Alta turno</a>
-          <a class="nav-link" href="/turnoConfirmado">Eliminar Turno</a>
-          <a class="nav-link" href="/turnosDisponibles">Turnos Disponibles</a>
-          <a class="nav-link" href="/registro">Registrate</a>
-
-        </div>
-      </div>
-    </div>
-  </nav> -->
-      <nav class="navbar navbar-expand-lg">
+      <nav class="navbar navbar-expand-lg nav-underline" style="background-image: url('./images/header.png');">
         <div class="container-fluid justify-content-beetwen">
-          <img src="/images/logoPeluqarte.png" alt="Logo Peluqarte" style="height: 120px;">
+          <img src="./images/logoPeluqarte.png" alt="Logo Peluqarte" style="height: 120px;">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -52,9 +34,19 @@
                 <a class="nav-link fw-medium text-light" href="/editarTurnos">Editar Turnos</a>
               </li>
               {%endif%}
+              {% if rol=="admin" %}
+              <li class="nav-item">
+                <a class="nav-link fw-medium text-light" href="/turnosConfirmados">Mis Turnos</a>
+              </li>
+              {%endif%}
               {% if rol=="usuario"%}
               <li class="nav-item">
                 <a class="nav-link fw-medium text-light" href="/vistaTurnosDisponibles">Turnos Disponibles</a>
+              </li>
+              {%endif%}
+              {% if rol=="usuario"%}
+              <li class="nav-item">
+                <a class="nav-link fw-medium text-light" href="/misTurnos">Mis Turnos</a>
               </li>
               {%endif%}
               {% if rol %}

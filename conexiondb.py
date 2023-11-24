@@ -146,19 +146,29 @@ def turnoConfirmado(request,response):
             cursor= conexion.cursor()
 
             query='SELECT idturno, dia_inicio, nombre_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero where disponibilidad=1 and turno.dni_peluquero=%s;'
-            #muestra turnos para trabajar de un peluquero
-            #query='SELECT idturno, dia_inicio, nombre_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero where disponibilidad=0 and turno.dni_peluquero=%s'
             cursor.execute(query,(sessionDniPeluquero,))
 
-            turno=cursor.fetchall()
+            queryDelete='delete from turno where idturno = %s and disponibilidad=1'
 
-            response.text=app.template("editarTurnos.html", context={"turnos": turno, "cookieLogin": session_id, "rol":session_rol})
+            turnos=cursor.fetchall()
+            fechaHoy = datetime.now()
+
+            arrayTurno=[]
+            
+            for turno in turnos:
+                if turno[1]>fechaHoy:
+                    arrayTurno.append(turno)
+                else:
+                    cursor.execute(queryDelete,(sessionDniPeluquero,))
+                    conexion.commit()
+
+            response.text=app.template("editarTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
             conexion.close()
         else:
             response.text=app.template("home.html")
             conexion.close()
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}", "cookieLogin": session_id, "rol":session_rol})
         conexion.close()
 
 @app.ruta("/turnosDisponibles")
@@ -438,3 +448,88 @@ def eligeTurno(request,response):
     except Exception as e:
         response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema {e}"})
 
+@app.ruta("/turnosConfirmados")
+def turnosConfirmados(request,response):
+    conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+    try:
+        datosCookie = request.cookies.get('session_id')
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        sessionDniPeluquero=datosSesion.get('usuario_id')
+        session_rol=datosSesion.get('rol')
+        if session_id:
+            cursor= conexion.cursor()
+
+            query='SELECT  dia_inicio, nombre_cliente, apellido_cliente, tel_cliente FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero inner join turnospeluqueria.cliente on turno.dni_Cliente=cliente.dni_cliente where disponibilidad=0 and turno.dni_peluquero=%s'
+            cursor.execute(query,(sessionDniPeluquero,))
+
+            fechaHoy = datetime.now()
+
+            turnos=cursor.fetchall()
+            arrayTurno=[]
+            for turno in turnos:
+                if turno[0]>fechaHoy:
+                    arrayTurno.append(turno)
+
+            response.text=app.template("turnosConfirmados.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
+            conexion.close()
+        else:
+            response.text=app.template("home.html")
+            conexion.close()
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
+        conexion.close()
+
+@app.ruta("/misTurnos")
+def misTurnos(request,response):
+    conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+    try:
+        datosCookie = request.cookies.get('session_id')
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        sessionDniCliente=datosSesion.get('usuario_id')
+        session_rol=datosSesion.get('rol')
+        if session_id:
+            cursor= conexion.cursor()
+
+            query='SELECT  idturno ,dia_inicio, nombre_peluquero, apellido_peluquero, tel_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_Peluquero inner join turnospeluqueria.cliente on turno.dni_Cliente=cliente.dni_cliente where disponibilidad=0 and turno.dni_Cliente=%s'
+            cursor.execute(query,(sessionDniCliente,))
+
+            fechaHoy = datetime.now()
+
+            turnos=cursor.fetchall()
+            arrayTurno=[]
+            for turno in turnos:
+                if turno[1]>fechaHoy:
+                    arrayTurno.append(turno)
+
+            response.text=app.template("misTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
+            conexion.close()
+        else:
+            response.text=app.template("home.html")
+            conexion.close()
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
+        conexion.close()
+
+@app.ruta("/bajaTurno")
+def bajaTurno(request,response):
+    try:
+        datosCookie = request.cookies.get('session_id')
+        datosSesion=json.loads(datosCookie)
+        session_id=datosSesion.get('session_id')
+        session_rol=datosSesion.get('rol')
+        conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
+        if session_id:       
+            cursor= conexion.cursor()
+            idSeleccionado=request.POST.get("idTurno")
+            query="update turno set disponibilidad = %s, dni_Cliente= null where idturno=%s;"
+            datos=(1, idSeleccionado)
+            cursor.execute(query, datos)
+            conexion.commit()
+            response.text=app.template("misTurnos.html", context={"cookieLogin": session_id, "rol": session_rol, "respuesta":"Turno cancelado correctamente"})
+        else:
+            response.text=app.template("home.html")
+        conexion.close()
+    except Exception as e:
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema {e}","cookieLogin": session_id, "rol": session_rol,})

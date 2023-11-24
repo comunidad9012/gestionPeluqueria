@@ -7,7 +7,8 @@
 </head>
 <body  class="container" style="background-color: rgb(97, 68, 42);">
     {% include 'header.html' %}
-    <h1 class="my-2">Dar de alta turno especial</h1>
+    <main class="mx-auto">
+    <h1 class="my-2">Turno especial</h1>
     <form action="/altaTurno" method="post">
         {% if respuesta %}
           <div class="alert alert-warning" role="alert">
@@ -20,25 +21,25 @@
           </div>
           <button type="submit" class="btn bg-warning-subtle">Confirmar</button>
     </form>
-    <h1 class="my-2">Dar de alta turno semanal</h1>
+    <h1 class="my-2">Turno por Semana</h1>
     <form action="/altaTurnoSemanal" method="post">
         {% if respuestaSemana %}
           <div class="alert alert-warning" role="alert">
             {{ respuestaSemana }}
           </div>
         {% endif %}
-        <label class="fs-4 mb-2">Fecha y hora primer turno</label>
+        <label class="fs-4 mb-2">Primer turno</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaInicio" id="fechaInicio">
           </div>
-          <label class="fs-4 mb-2">Fecha y hora ultimo turno</label>
+          <label class="fs-4 mb-2">Ultimo turno</label>
           <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaFin" id="fechaFin">
           </div>
           <button type="submit" class="btn bg-warning-subtle">Confirmar</button>
     </form>
-    
+  </main>
 </body>
 </html>

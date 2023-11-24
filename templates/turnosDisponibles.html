@@ -7,7 +7,7 @@
 </head>
 <body class="container" style="background-color: rgb(97, 68, 42);">
     {% include 'header.html' %}
-    <form action="/turnosDisponibles" method="post" class="w-75 mx-auto d-flex justify-content-around">
+    <form action="/turnosDisponibles" method="post" class=" mx-auto d-flex justify-content-around">
         <select name="peluquero" class="form-select me-2 my-2">
             <option value="12345674">David Perez</option>
             <option value="12345675">Carlos Rober</option>
@@ -18,12 +18,11 @@
         <button type="submit" class="btn btn-warning my-2 ">Buscar</button>
     </form>
     {%if turnos%}
-    <table class="table table-bordered table-dark w-75  mx-auto">
+    <table class="table table-bordered table-dark mx-auto">
         <thead>
             <tr  class="table table-Secondary">
                 <td>Dia y hora Turno</td>
                 <td>Peluquero</td>
-                <td>Contacto</td>
                 <td>Accion</td>
             </tr>
         </thead>
@@ -32,7 +31,6 @@
                 <tr scope="row">
                     <td>{{i[1]}}</td>
                     <td>{{i[2]}}</td>
-                    <td>{{i[3]}}</td>
                     <td><form action="eligeTurno" method="post">
                         <input type="hidden" name="idTurno" value="{{ i[0] }}">
                         <button type="submit" class="btn btn-success">Reservar</button>

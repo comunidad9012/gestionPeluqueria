@@ -259,7 +259,7 @@ def vistaEditTurno(request,response):
             response.text=app.template("home.html")
 
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema "})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema ", "cookieLogin": session_id, "rol":session_rol})
     finally:
         conexion.close()
 
@@ -423,7 +423,7 @@ def altaTurnoSemanal(request, response):
             response.text=app.template("home.html")
             conexion.close()
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema"})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema", "cookieLogin": session_id, "rol":session_rol})
 
 @app.ruta("/eligeTurno")
 def eligeTurno(request,response):
@@ -477,7 +477,7 @@ def turnosConfirmados(request,response):
             response.text=app.template("home.html")
             conexion.close()
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}", "cookieLogin": session_id, "rol":session_rol})
         conexion.close()
 
 @app.ruta("/misTurnos")
@@ -509,7 +509,7 @@ def misTurnos(request,response):
             response.text=app.template("home.html")
             conexion.close()
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}"})
+        response.text=app.template("userExiste.html", context={"respuesta": f"Disculpa tuvimos un problema{e}", "cookieLogin": session_id, "rol":session_rol})
         conexion.close()
 
 @app.ruta("/bajaTurno")

@@ -464,14 +464,20 @@ def turnosConfirmados(request,response):
             cursor.execute(query,(sessionDniPeluquero,))
 
             fechaHoy = datetime.now()
-
+            fechaAyer= fechaHoy - timedelta(days=2)
             turnos=cursor.fetchall()
             arrayTurno=[]
+            arrayTurnoPasado=[]
             for turno in turnos:
                 if turno[0]>fechaHoy:
                     arrayTurno.append(turno)
+                elif turno[0]<fechaHoy and turno[0]>fechaAyer:
+                    arrayTurnoPasado.append(turno)
+            if len(arrayTurnoPasado)>=1:
+                response.text=app.template("turnosConfirmados.html", context={"turnos": arrayTurno,"turnosPasados": arrayTurnoPasado, "cookieLogin": session_id, "rol":session_rol})
+            else:
+                response.text=app.template("turnosConfirmados.html", context={"turnos": arrayTurno,"cookieLogin": session_id, "rol":session_rol})
 
-            response.text=app.template("turnosConfirmados.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
             conexion.close()
         else:
             response.text=app.template("home.html")

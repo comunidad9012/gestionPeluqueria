@@ -14,7 +14,7 @@
             <tr  class="table table-Secondary">
                 <td>Dia y hora Turno</td>
                 <td>Cliente</td>
-                <td>Contacto</td>
+                <td>Tel Cliente</td>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +27,30 @@
                 {% endfor %}
         </tbody> 
     </table>
+    {%if turnosPasados:%}
+    <h1 class="mx-auto">Turnos Pasados</h1>
+    <table class="table table-bordered table-dark mx-auto">
+        <thead>
+            <tr  class="table table-Secondary">
+                <td>Dia y hora Turno</td>
+                <td>Cliente</td>
+                <td>Tel Cliente</td>
+                <td>Accion</td>
+            </tr>
+        </thead>
+        <tbody>
+                {% for i in turnosPasados %}
+                <tr scope="row">
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}} {{i[2]}}</td>
+                    <td>{{i[3]}}</td>
+                    <td>Asistio o no</td>
+                </tr>
+                {% endfor %}
+
+        </tbody> 
+    </table>
+    {%endif%}
 </main>
 </body>
 </html>

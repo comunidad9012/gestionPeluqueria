@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body class="container" style="background-color: rgb(97, 68, 42);">
+<body style="background-color: #262626;">
     {% include 'header.html' %}
+    <div style="margin-top: 100px;"  class="container">
     <h1 class="mx-auto">Mis Turnos</h1>
     {% if respuesta%}
         <h2 class="alert alert-warning mx-auto" role="alert">{{respuesta}}</h2>
@@ -39,5 +40,6 @@
             </tbody>
         </table>
     {% endif %}
+    </div>
 </body>
 </html>

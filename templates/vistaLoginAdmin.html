@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body class="container" style="background-color: rgb(97, 68, 42);">
-    {% include 'header.html'%}
+<body style="background-color: #262626;">
+    {% include 'header.html' %}
+    <div style="margin-top: 100px;"  class="container">
     <form action="/loginAdmin" method="post">
         <input type="text" name="usuario" id="usuario">
         <input type="password" name="contraseña" id="contraseña">
         <button type="submit">Ingresar</button>
     </form>
+</div>
 </body>
 </html>

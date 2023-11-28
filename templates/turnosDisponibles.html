@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body class="container" style="background-color: rgb(97, 68, 42);">
+<body style="background-color: #262626;">
     {% include 'header.html' %}
+    <div style="margin-top: 100px;"  class="container">
     <form action="/turnosDisponibles" method="post" class=" mx-auto d-flex justify-content-around">
         <select name="peluquero" class="form-select me-2 my-2">
             <option value="12345674">David Perez</option>
@@ -44,5 +45,6 @@
     {%if respuesta:%}
         <h2 class="alert alert-warning m-auto" role="alert">{{respuesta}}</h2>
     {%endif%}
+    </div>
     </body>
 </html>

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body  class="container" style="background-color: rgb(97, 68, 42);">
-    {% include 'header.html' %}
+<body  style="background-color: #262626;">
+  {% include 'header.html' %}
+  <div style="margin-top: 100px;"  class="container">
     <main class="mx-auto">
     <h1 class="my-2">Turno especial</h1>
     <form action="/altaTurno" method="post">
@@ -41,5 +42,6 @@
           <button type="submit" class="btn bg-warning-subtle">Confirmar</button>
     </form>
   </main>
+  </div>
 </body>
 </html>

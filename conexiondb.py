@@ -9,15 +9,16 @@ import os
 app= Wsgiclass()
 sessions = {}
 
-@app.ruta("/home")
+@app.ruta("/")
 def home(request, response):
     try:
         datosCookie = request.cookies.get('session_id')
         if datosCookie:
             datosSesion=json.loads(datosCookie)
+            imagenLogo='/static/header2.png'
             session_id=datosSesion.get('session_id')
             session_rol=datosSesion.get('rol')
-            response.text=app.template("home.html", context={"cookieLogin": session_id, "rol":session_rol} )
+            response.text=app.template("home.html", context={"cookieLogin": session_id, "rol":session_rol, "imagen": imagenLogo} )
         else:
             response.text=app.template("home.html")
     except Exception as e:

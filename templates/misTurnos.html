@@ -23,20 +23,26 @@
             </tr>
         </thead>
         <tbody>
+            {% if turnos: %}
                 {% for i in turnos %}
+                        <tr scope="row">
+                            <td>{{i[1]}}</td>
+                            <td>{{i[2]}} {{i[3]}}</td>
+                            <td>{{i[4]}}</td>
+                            <td >
+                                <form method="post" action="/bajaTurno" style="display: inline;">
+                                    <input type="hidden" name="idTurno" value="{{ i[0] }}">
+                                    <input type="hidden" name="turnos" value="turnos">
+                                    <button type="submit" class="btn btn-danger my-2">Cancelar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+            {%else:%}
                 <tr scope="row">
-                    <td>{{i[1]}}</td>
-                    <td>{{i[2]}} {{i[3]}}</td>
-                    <td>{{i[4]}}</td>
-                    <td >
-                        <form method="post" action="/bajaTurno" style="display: inline;">
-                            <input type="hidden" name="idTurno" value="{{ i[0] }}">
-                            <input type="hidden" name="turnos" value="turnos">
-                            <button type="submit" class="btn btn-danger my-2">Cancelar</button>
-                        </form>
-                    </td>
+                    <td>No existen turnos</td>
                 </tr>
-                {% endfor %}
+            {%endif%}
             </tbody>
         </table>
     {% endif %}

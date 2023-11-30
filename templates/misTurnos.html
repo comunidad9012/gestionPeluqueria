@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mis Turnos</title>
 </head>
-<body style="background-color: #262626;">
+<body style="background-color: #262626 ;">
     {% include 'header.html' %}
     <div style="margin-top: 100px;"  class="container">
-    <h1 class="mx-auto">Mis Turnos</h1>
+    <h1 class="mx-auto" style="color: white;">Mis Turnos</h1>
     {% if respuesta%}
         <h2 class="alert alert-warning mx-auto" role="alert">{{respuesta}}</h2>
     {% endif %}
-    {% if turnos %}
+    {% if turnos: %}
     <table class="table table-bordered table-dark mx-auto">
         <thead>
             <tr class="table table-Secondary">
@@ -23,7 +23,6 @@
             </tr>
         </thead>
         <tbody>
-            {% if turnos: %}
                 {% for i in turnos %}
                         <tr scope="row">
                             <td>{{i[1]}}</td>
@@ -38,11 +37,6 @@
                             </td>
                         </tr>
                         {% endfor %}
-            {%else:%}
-                <tr scope="row">
-                    <td>No existen turnos</td>
-                </tr>
-            {%endif%}
             </tbody>
         </table>
     {% endif %}

@@ -8,6 +8,7 @@
 <body style="background-color: #262626;">
     {% include 'header.html' %}
     <div style="margin-top: 100px;"  class="container">
+        <h1 style="color: white;">Turnos Disponibles</h1>
     <form action="/turnosDisponibles" method="post" class=" mx-auto d-flex justify-content-around">
         <select name="peluquero" class="form-select me-2 my-2">
             <option value="12345674">David Perez</option>
@@ -18,7 +19,7 @@
         </select>
         <button type="submit" class="btn btn-warning my-2 ">Buscar</button>
     </form>
-    {%if turnos%}
+    {%if turnos: %}
     <table class="table table-bordered table-dark mx-auto">
         <thead>
             <tr  class="table table-Secondary">

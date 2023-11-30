@@ -8,7 +8,7 @@
 <body style="background-color: #262626;">
     {% include 'header.html' %}
     <div style="margin-top: 100px;"  class="container">
-    <h1>Editar Turno</h1>
+    <h1 style="color: white;">Editar Turno</h1>
         <table class="table table-bordered table-dark  mx-auto">
             <thead>
                 <tr class="table table-Secondary">
@@ -18,8 +18,8 @@
             </thead>
             <tbody>
             <tr>
-                <td>{{turnos[1]}}</td>
-                <td>{{turnos[2]}}</td>
+                <td>{{turno[1]}}</td>
+                <td>{{turno[2]}}</td>
             </tr>
             </tbody>
         </table>
@@ -29,8 +29,8 @@
             <h2 class="alert alert-warning" role="alert">{{respuesta}}</h2>
             {%endif%}
             <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
-            <input type="hidden" name="idTurno" value="{{ cliente[0] }}">
-            <input type="hidden" name="fechaTurno" value="{{ cliente[1] }}">
+            <input type="hidden" name="idTurno" value="{{ turno[0] }}">
+            <input type="hidden" name="fechaTurno" value="{{ turno[1] }}">
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaInicio" id="fechaInicio">
         </div>
         <button type="submit" class="btn bg-warning-subtle">Modificar</button>

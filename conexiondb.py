@@ -48,7 +48,6 @@ def logicaAlta(request, response):
         queryVerifica='SELECT count(*) FROM cliente where dni_cliente = %s'
         cursor.execute(queryVerifica, (dni_cliente,))
         resultado2 = cursor.fetchone()
-        session_id = request.cookies.get('session_id')
 
         if resultado1[0] > 0:
             response.text=app.template("registro.html", context={"error": "Ese usuario ya esta registrado"})
@@ -162,7 +161,11 @@ def turnoConfirmado(request,response):
                     cursor.execute(queryDelete,(sessionDniPeluquero,))
                     conexion.commit()
 
-            response.text=app.template("editarTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
+            if len(arrayTurno)==0:
+                response.text=app.template("editarTurnos.html", context={"cookieLogin": session_id, "rol":session_rol})
+            else:
+                response.text=app.template("editarTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
+
             conexion.close()
         else:
             response.text=app.template("home.html")
@@ -187,8 +190,10 @@ def turnosDisponibles(request,response):
             query='SELECT idturno,dia_inicio, nombre_peluquero, tel_peluquero FROM turnospeluqueria.turno inner join turnospeluqueria.peluquero on peluquero.dni_peluquero=turno.dni_peluquero where disponibilidad=1 and turno.dni_peluquero=%s;'
             cursor.execute(query, (dniPeluquero,))
             turnos=cursor.fetchall()
-
-            response.text=app.template("turnosDisponibles.html", context={"turnos":turnos, "cookieLogin": session_id, "rol":session_rol })
+            if len(turnos) == 0:
+                response.text=app.template("turnosDisponibles.html", context={"cookieLogin": session_id, "rol":session_rol })
+            else:
+                response.text=app.template("turnosDisponibles.html", context={"turnos":turnos, "cookieLogin": session_id, "rol":session_rol })
             conexion.close()
         else:
             response.text=app.template("home.html")
@@ -253,8 +258,8 @@ def vistaEditTurno(request,response):
             query='SELECT * FROM turno where idturno = %s'
             id= request.POST.get("id")
             cursor.execute(query,(id,))
-            cliente= cursor.fetchone()
-            response.text=app.template("modificaTurno.html", context={"cliente":cliente, "cookieLogin": session_id, "rol":session_rol})
+            turno= cursor.fetchone()
+            response.text=app.template("modificaTurno.html", context={"turno":turno, "cookieLogin": session_id, "rol":session_rol})
         else:
             response.text=app.template("home.html")
 
@@ -307,9 +312,7 @@ def editTurno(request,response):
 @app.ruta("/login")
 def login(request,response):
     try:
-        # datosCookie = request.cookies.get('session_id')
-        # datosSesion=json.loads(datosCookie)
-        # session_id=datosSesion.get('session_id')   
+   
         conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
         cursor= conexion.cursor()
         usuario=request.POST.get("usuario")
@@ -508,8 +511,11 @@ def misTurnos(request,response):
             for turno in turnos:
                 if turno[1]>fechaHoy:
                     arrayTurno.append(turno)
+            if len(arrayTurno)==0:
+                response.text=app.template("misTurnos.html", context={"respuesta": "No tenes turnos", "cookieLogin": session_id, "rol":session_rol})
+            else:
+                response.text=app.template("misTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
 
-            response.text=app.template("misTurnos.html", context={"turnos": arrayTurno, "cookieLogin": session_id, "rol":session_rol})
             conexion.close()
         else:
             response.text=app.template("home.html")

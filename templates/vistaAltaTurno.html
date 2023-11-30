@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Alta Turnos</title>
 </head>
 <body  style="background-color: #262626;">
   {% include 'header.html' %}
   <div style="margin-top: 100px;"  class="container">
     <main class="mx-auto">
-    <h1 class="my-2">Turno especial</h1>
+    <h1 class="my-2" style="color: white;">Turno especial</h1>
     <form action="/altaTurno" method="post">
         {% if respuesta %}
           <div class="alert alert-warning" role="alert">
@@ -22,19 +22,19 @@
           </div>
           <button type="submit" class="btn bg-warning-subtle">Confirmar</button>
     </form>
-    <h1 class="my-2">Turno por Semana</h1>
+    <h1 class="my-2" style="color: white;">Turno por Semana</h1>
     <form action="/altaTurnoSemanal" method="post">
         {% if respuestaSemana %}
           <div class="alert alert-warning" role="alert">
             {{ respuestaSemana }}
           </div>
         {% endif %}
-        <label class="fs-4 mb-2">Primer turno</label>
+        <label class="fs-4 mb-2" style="color: white;">Primer turno</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaInicio" id="fechaInicio">
           </div>
-          <label class="fs-4 mb-2">Ultimo turno</label>
+          <label class="fs-4 mb-2" style="color: white;">Ultimo turno</label>
           <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default">Fecha y Hora</span>
             <input type="datetime-local" class="form-control opacity-75" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fechaFin" id="fechaFin">

@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body style="background-color: #262626;">
     {% include 'header.html'%}
     <div style="margin-top: 100px;"  class="container">
+        <h1 style="color: white;">Ingresa</h1>
     <form action="/login" method="post">
         <input type="text" name="usuario" id="usuario">
         <input type="password" name="contraseña" id="contraseña">
         <button type="submit">Ingresar</button>
     </form>
-    <p>Si no tenes cuenta, registrate</p>
-    <a class="nav-link fw-medium text-light" href="/registro">Registrate</a>
+    <p style="color: white;"> Si no tenes cuenta, registrate ya!</p>
+    <a class="fw-medium text-light"  href="/registro">Registrate</a>
     </div>
 </body>
 </html>

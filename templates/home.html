@@ -95,24 +95,24 @@
       window.sr= ScrollReveal();
       sr.reveal('.header-content-left', {
         duration: 2000,
-        origin: 'left',
-        distance: '100px'
-      })
-      window.sr= ScrollReveal();
-      sr.reveal('.main', {
-        duration: 2000,
-        origin: 'buttom',
-        delay: 300
+        delay: 200
       })
       window.sr= ScrollReveal();
       sr.reveal('.header-content-right', {
         duration: 2000,
-        origin: 'right',
-        distance: '100px'
+        delay: 200
       })
+      window.sr= ScrollReveal();
+      sr.reveal('.main', {
+        duration: 2000,
+        origin: 'top',
+        distance:'100px',
+        delay: 600
+      })
+
       
   </script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
     $(document).ready(function () {
       var previousScroll = 0;
@@ -120,17 +120,15 @@
       $(window).scroll(function () {
         var currentScroll = $(this).scrollTop();
   
-        // Si el desplazamiento actual es mayor que el desplazamiento anterior, oculta la barra de navegación
         if (currentScroll > previousScroll) {
           $(".navbar-fixed-top").fadeOut();
         } else {
-          // Si el desplazamiento actual es menor que el desplazamiento anterior, muestra la barra de navegación
           $(".navbar-fixed-top").fadeIn();
         }
   
         previousScroll = currentScroll;
       });
     });
-  </script>
+  </script> -->
 </body>
 </html>

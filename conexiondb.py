@@ -130,7 +130,7 @@ def altaTurno(request,response):
             response.text=app.template("home.html")
             conexion.close()
     except Exception as e:
-        response.text=app.template("userExiste.html", context={"respuesta": "Disculpa tuvimos un problema"})
+        response.text=app.template("vistaLogin.html", context={"respuesta": "Disculpa tuvimos un problema"})
 
 @app.ruta("/editarTurnos")
 def turnoConfirmado(request,response):
@@ -191,7 +191,7 @@ def turnosDisponibles(request,response):
             cursor.execute(query, (dniPeluquero,))
             turnos=cursor.fetchall()
             if len(turnos) == 0:
-                response.text=app.template("turnosDisponibles.html", context={"cookieLogin": session_id, "rol":session_rol })
+                response.text=app.template("turnosDisponibles.html", context={"respuesta":"No hay turnos disponibles","cookieLogin": session_id, "rol":session_rol })
             else:
                 response.text=app.template("turnosDisponibles.html", context={"turnos":turnos, "cookieLogin": session_id, "rol":session_rol })
             conexion.close()
@@ -352,10 +352,7 @@ def vistaLogin(request, response):
 
 @app.ruta("/loginAdmin")
 def login(request,response):
-    try:
-        # datosCookie = request.cookies.get('session_id')
-        # datosSesion=json.loads(datosCookie)
-        # session_id=datosSesion.get('session_id')   
+    try:  
         conexion = mysql.connector.connect(host="localhost", user="mauro", password="123456", database="turnospeluqueria")
         cursor= conexion.cursor()
         usuario=request.POST.get("usuario")
